@@ -14,3 +14,4 @@ buildNumber.properties
 # IDEA #
 .idea/
 *.iml
+url-api/src/main/resources/application-dev.yml

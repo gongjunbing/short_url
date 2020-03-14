@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
  * @date 2020/03/12 23:34
  **/
 @ToString
-public enum ErrorCode {
+public enum ErrorCodeEnum {
 
     /**
      * 请求参数不合法
@@ -34,7 +34,7 @@ public enum ErrorCode {
     @Getter
     private final String message;
 
-    ErrorCode(int code, HttpStatus httpStatus, String message) {
+    ErrorCodeEnum(int code, HttpStatus httpStatus, String message) {
         this.code = code;
         this.httpStatus = httpStatus;
         this.message = message;
