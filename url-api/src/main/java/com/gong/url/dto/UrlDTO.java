@@ -28,12 +28,12 @@ public class UrlDTO {
     /**
      * 短码
      */
-    @ApiModelProperty("原地址")
+    @ApiModelProperty("短码")
     private String shortKey;
 
     /**
      * 失效时间
      */
-    @ApiModelProperty("原地址")
+    @ApiModelProperty("失效时间")
     private LocalDateTime expireTime;
 }

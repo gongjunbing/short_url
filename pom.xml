@@ -25,7 +25,8 @@
 
     <properties>
         <java.version>11</java.version>
-        <swagger2.version>2.9.2</swagger2.version>
+        <!--        <swagger2.version>2.9.2</swagger2.version>-->
+        <knife4j-spring-boot-starter.version>2.0.2</knife4j-spring-boot-starter.version>
         <url-common.version>1.0.0-SNAPSHOT</url-common.version>
         <url-domain.version>1.0.0-SNAPSHOT</url-domain.version>
         <url-service.version>1.0.0-SNAPSHOT</url-service.version>
@@ -76,15 +77,21 @@
                 <version>${url-service.version}</version>
             </dependency>
             <!--Swagger-UI API文档生产工具-->
+            <!--            <dependency>-->
+            <!--                <groupId>io.springfox</groupId>-->
+            <!--                <artifactId>springfox-swagger2</artifactId>-->
+            <!--                <version>${swagger2.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>io.springfox</groupId>-->
+            <!--                <artifactId>springfox-swagger-ui</artifactId>-->
+            <!--                <version>${swagger2.version}</version>-->
+            <!--            </dependency>-->
+
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger2.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j-spring-boot-starter.version}</version>
             </dependency>
 
             <!-- mybatis -->

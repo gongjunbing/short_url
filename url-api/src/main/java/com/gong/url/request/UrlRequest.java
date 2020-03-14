@@ -22,6 +22,6 @@ public class UrlRequest {
      */
     @NotNull(message = "originUrl 不能为空")
     @Length(min = 1, max = 2083)
-    @ApiParam("原地址")
+    @ApiModelProperty(value = "长网址", required = true)
     private String originUrl;
 }
