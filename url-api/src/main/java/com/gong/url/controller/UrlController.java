@@ -1,11 +1,14 @@
 package com.gong.url.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.gong.url.Util;
 import com.gong.url.bo.UrlBO;
 import com.gong.url.dto.UrlDTO;
 import com.gong.url.request.UrlRequest;
 import com.gong.url.serice.UrlService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -33,9 +36,10 @@ public class UrlController {
 
     private UrlService urlService;
 
+    @ApiOperationSupport(author = "tiansheng9527@gmail.com")
     @ApiOperation("生成短链接")
     @PostMapping("/generic")
-    public ResponseEntity<?> generic(@RequestBody @Valid UrlRequest request) {
+    public ResponseEntity<UrlDTO> generic(@RequestBody @Valid UrlRequest request) {
         UrlBO urlBO = new UrlBO();
         BeanUtils.copyProperties(request, urlBO);
 

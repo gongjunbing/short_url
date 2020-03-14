@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 logging:
   level:
     com.gong.url: debug
@@ -8,6 +9,10 @@ spring:
   profiles:
     active: dev
 
-
+# 配置mybatis接口路径
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
+
+# 配置knife4j自定义文档路径
+knife4j:
+  markdowns: classpath:markdown/*
