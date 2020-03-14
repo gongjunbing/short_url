@@ -3,3 +3,11 @@ server:
 logging:
   level:
     com.gong.url: debug
+
+spring:
+  profiles:
+    active: dev
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml

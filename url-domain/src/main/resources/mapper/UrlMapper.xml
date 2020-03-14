@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gong.url.mapper.UrlMapper">
+    <resultMap id="BaseResultMap" type="com.gong.url.entity.UrlDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="short_key" jdbcType="VARCHAR" property="shortKey"/>
+        <result column="short_url" jdbcType="VARCHAR" property="shortUrl"/>
+        <result column="origin_url" jdbcType="VARCHAR" property="originUrl"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="is_delete" jdbcType="BOOLEAN" property="isDelete"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, short_key, short_url, origin_url, create_time, update_time, expire_time, is_delete
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id,
+               short_key,
+               short_url,
+               origin_url,
+               create_time,
+               expire_time,
+               is_delete
+        from url
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByShortKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from url
+        where short_key=#{shortKey,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from url
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.gong.url.entity.UrlDO"
+            useGeneratedKeys="true">
+        insert into url (short_key, short_url, origin_url,
+                         create_time, update_time, expire_time,
+                         is_delete)
+        values (#{shortKey,jdbcType=VARCHAR}, #{shortUrl,jdbcType=VARCHAR}, #{originUrl,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP},
+                #{isDelete,jdbcType=BOOLEAN})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.gong.url.entity.UrlDO"
+            useGeneratedKeys="true">
+        insert into url
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shortKey != null">
+                short_key,
+            </if>
+            <if test="shortUrl != null">
+                short_url,
+            </if>
+            <if test="originUrl != null">
+                origin_url,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="expireTime != null">
+                expire_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shortKey != null">
+                #{shortKey,jdbcType=VARCHAR},
+            </if>
+            <if test="shortUrl != null">
+                #{shortUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="originUrl != null">
+                #{originUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireTime != null">
+                #{expireTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.gong.url.entity.UrlDO">
+        update url
+        <set>
+            <if test="shortKey != null">
+                short_key = #{shortKey,jdbcType=VARCHAR},
+            </if>
+            <if test="shortUrl != null">
+                short_url = #{shortUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="originUrl != null">
+                origin_url = #{originUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.gong.url.entity.UrlDO">
+        update url
+        set short_key   = #{shortKey,jdbcType=VARCHAR},
+            short_url   = #{shortUrl,jdbcType=VARCHAR},
+            origin_url  = #{originUrl,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            expire_time = #{expireTime,jdbcType=TIMESTAMP},
+            is_delete   = #{isDelete,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

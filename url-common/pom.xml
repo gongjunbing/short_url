@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <version>1.0.0-SNAPSHOT</version>
     <artifactId>url-common</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <name>url-common</name>
     <description>url-common project for url</description>
     <packaging>jar</packaging>
