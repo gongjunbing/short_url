@@ -10,7 +10,7 @@ import java.util.Map;
  **/
 public class BadRequestException extends BaseException {
 
-    public BadRequestException(Map<String, Object> data) {
+    public BadRequestException(Map<String, String> data) {
         super(ErrorCodeEnum.BAD_REQUEST, data);
     }
 }
