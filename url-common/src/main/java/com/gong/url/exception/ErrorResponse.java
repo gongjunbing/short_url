@@ -45,14 +45,15 @@ public class ErrorResponse {
     /**
      * 错误说明辅助数据
      */
-    private HashMap<String, Object> data = new HashMap<>();
+    @Getter
+    private Map<String, String> data = new HashMap<>();
 
 
     public ErrorResponse(BaseException ex, String path) {
         this(ex.getError().getCode(), ex.getError().getHttpStatus().value(), ex.getMessage(), path, ex.getData());
     }
 
-    public ErrorResponse(int code, int httpStatus, String message, String path, Map<String, Object> data) {
+    public ErrorResponse(int code, int httpStatus, String message, String path, Map<String, String> data) {
         this.code = code;
         this.httpStatus = httpStatus;
         this.message = message;

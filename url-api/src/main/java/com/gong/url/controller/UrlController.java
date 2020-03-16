@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -42,6 +44,29 @@ public class UrlController {
     public ResponseEntity<UrlDTO> generic(@RequestBody @Valid UrlRequest request) {
         UrlBO urlBO = new UrlBO();
         BeanUtils.copyProperties(request, urlBO);
+
+        int id = urlService.insertUrl(urlBO);
+
+        String key = Util.convertToBase62(id);
+
+        urlBO.setExpireTime(LocalDateTime.now().plusDays(7));
+        urlBO.setIsDelete(false);
+        urlBO.setShortKey(key);
+        int result = urlService.updateUrl(id, urlBO);
+
+        UrlDTO response = new UrlDTO();
+        BeanUtils.copyProperties(urlBO, response);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @ApiOperationSupport(author = "tiansheng9527@gmail.com")
+    @ApiOperation("生成短链接")
+    @PostMapping("/genericForm")
+    @ApiImplicitParams(@ApiImplicitParam(name = "originUrl", paramType = "query"))
+    public ResponseEntity<UrlDTO> genericForm(@Valid @NotBlank @URL @RequestParam("originUrl") String originUrl) {
+        UrlBO urlBO = new UrlBO();
+        urlBO.setOriginUrl(originUrl);
 
         int id = urlService.insertUrl(urlBO);
 

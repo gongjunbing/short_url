@@ -1,13 +1,11 @@
 package com.gong.url.request;
 
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * url接口请求对象
@@ -20,8 +18,9 @@ public class UrlRequest {
     /**
      * 长网址
      */
-    @NotNull(message = "originUrl 不能为空")
+    @NotBlank(message = "originUrl 不能为空")
     @Length(min = 1, max = 2083)
+    @URL(message = "originUrl 必须是URL地址格式")
     @ApiModelProperty(value = "长网址", required = true)
     private String originUrl;
 }
