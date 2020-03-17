@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  * @date 2020/03/14 15:36
  **/
 @Data
-public class UrlRequest {
+public class AddUrlRequest {
     /**
      * 长网址
      */

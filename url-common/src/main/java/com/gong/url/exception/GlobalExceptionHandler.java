@@ -1,5 +1,6 @@
 package com.gong.url.exception;
 
+import com.gong.url.response.GlobalResponseCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,24 @@ public class GlobalExceptionHandler {
      * @return ResponseEntity<ErrorResponse>
      */
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ErrorResponse> handleException(BaseException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleBaseException(BaseException ex, HttpServletRequest request) {
         String path = request.getRequestURI();
         ErrorResponse response = new ErrorResponse(ex, path);
-        return new ResponseEntity<>(response, new HttpHeaders(), ex.getError().getHttpStatus());
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    /**
+     * 自定义异常处理
+     *
+     * @param ex      自定义异常
+     * @param request 请求
+     * @return ResponseEntity<ErrorResponse>
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex, HttpServletRequest request) {
+        String path = request.getRequestURI();
+        ErrorResponse response = new ErrorResponse(GlobalResponseCodeEnum.INTERNAL_SERVER_ERROR.getCode(), GlobalResponseCodeEnum.INTERNAL_SERVER_ERROR.getMessage(), path, null);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
     /**
@@ -62,7 +77,7 @@ public class GlobalExceptionHandler {
         log.debug("参数校验失败：" + errors.toString());
         ErrorResponse response = new ErrorResponse(new BadRequestException(errors), path);
 
-        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
     /**

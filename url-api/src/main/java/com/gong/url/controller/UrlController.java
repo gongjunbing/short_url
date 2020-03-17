@@ -4,25 +4,25 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.gong.url.Util;
 import com.gong.url.bo.UrlBO;
 import com.gong.url.dto.UrlDTO;
-import com.gong.url.request.UrlRequest;
+import com.gong.url.request.AddUrlRequest;
+import com.gong.url.request.QueryUrlRequest;
+import com.gong.url.response.Page;
 import com.gong.url.serice.UrlService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Url控制器
@@ -32,7 +32,8 @@ import java.time.LocalDateTime;
  **/
 @RestController
 @AllArgsConstructor
-@Api("短链接接口")
+@Api(tags = "短链接接口")
+@RequestMapping("/url")
 @Validated
 public class UrlController {
 
@@ -41,47 +42,67 @@ public class UrlController {
     @ApiOperationSupport(author = "tiansheng9527@gmail.com")
     @ApiOperation("生成短链接")
     @PostMapping("/generic")
-    public ResponseEntity<UrlDTO> generic(@RequestBody @Valid UrlRequest request) {
-        UrlBO urlBO = new UrlBO();
-        BeanUtils.copyProperties(request, urlBO);
+    public UrlDTO generic(@RequestBody @Valid AddUrlRequest request) {
 
-        int id = urlService.insertUrl(urlBO);
-
-        String key = Util.convertToBase62(id);
-
-        urlBO.setExpireTime(LocalDateTime.now().plusDays(7));
-        urlBO.setIsDelete(false);
-        urlBO.setShortKey(key);
-        int result = urlService.updateUrl(id, urlBO);
+        UrlBO urlBO = urlService.checkUrlIsExist(request.getOriginUrl());
+        if (urlBO == null) {
+            urlBO = urlService.generic(request.getOriginUrl(), 7);
+        }
 
         UrlDTO response = new UrlDTO();
         BeanUtils.copyProperties(urlBO, response);
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
     @ApiOperationSupport(author = "tiansheng9527@gmail.com")
-    @ApiOperation("生成短链接")
-    @PostMapping("/genericForm")
-    @ApiImplicitParams(@ApiImplicitParam(name = "originUrl", paramType = "query"))
-    public ResponseEntity<UrlDTO> genericForm(@Valid @NotBlank @URL @RequestParam("originUrl") String originUrl) {
-        UrlBO urlBO = new UrlBO();
-        urlBO.setOriginUrl(originUrl);
+    @ApiOperation("查询短链列表")
+    @PostMapping("/list")
+    public List<UrlDTO> list() {
 
-        int id = urlService.insertUrl(urlBO);
+        List<UrlBO> urlBOList = urlService.list();
+        List<UrlDTO> urlDTOList = urlBOList.stream().map(c -> {
+            UrlDTO urlDTO = new UrlDTO();
+            BeanUtils.copyProperties(c, urlDTO);
+            return urlDTO;
+        }).collect(Collectors.toList());
 
-        String key = Util.convertToBase62(id);
-
-        urlBO.setExpireTime(LocalDateTime.now().plusDays(7));
-        urlBO.setIsDelete(false);
-        urlBO.setShortKey(key);
-        int result = urlService.updateUrl(id, urlBO);
-
-        UrlDTO response = new UrlDTO();
-        BeanUtils.copyProperties(urlBO, response);
-
-        return ResponseEntity.ok(response);
+        return urlDTOList;
     }
+
+    @ApiOperationSupport(author = "tiansheng9527@gmail.com")
+    @ApiOperation("分页查询短链列表")
+    @PostMapping("/page")
+    public Page<UrlBO> page(@Valid @RequestBody QueryUrlRequest request) {
+
+        List<UrlBO> urlBOList = urlService.page(request.getPageIndex(), request.getPageSize());
+        Page<UrlBO> pageResult = new Page<UrlBO>(urlBOList);
+
+        return pageResult;
+    }
+
+//    @ApiOperationSupport(author = "tiansheng9527@gmail.com")
+//    @ApiOperation("生成短链接")
+//    @PostMapping("/genericForm")
+//    @ApiImplicitParams(@ApiImplicitParam(name = "originUrl", paramType = "query"))
+//    public ResponseEntity<UrlDTO> genericForm(@Valid @NotBlank @URL @RequestParam("originUrl") String originUrl) {
+//        UrlBO urlBO = new UrlBO();
+//        urlBO.setOriginUrl(originUrl);
+//
+//        int id = urlService.insertUrl(urlBO);
+//
+//        String key = Util.convertToBase62(id);
+//
+//        urlBO.setExpireTime(LocalDateTime.now().plusDays(7));
+//        urlBO.setIsDelete(false);
+//        urlBO.setShortKey(key);
+//        int result = urlService.updateUrl(id, urlBO);
+//
+//        UrlDTO response = new UrlDTO();
+//        BeanUtils.copyProperties(urlBO, response);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping("/u/{key}")
     public void redirect(@PathVariable("key") @Valid String key, HttpServletResponse response) {

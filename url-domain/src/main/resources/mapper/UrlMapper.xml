@@ -14,6 +14,18 @@
     <sql id="Base_Column_List">
         id, short_key, short_url, origin_url, create_time, update_time, expire_time, is_delete
     </sql>
+    <select id="list" resultMap="BaseResultMap">
+        select id,
+               short_key,
+               short_url,
+               origin_url,
+               create_time,
+               expire_time,
+               is_delete
+        from url
+    </select>
+    <!--    where id = #{id,jdbcType=INTEGER}-->
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select id,
                short_key,
@@ -30,6 +42,14 @@
         <include refid="Base_Column_List"/>
         from url
         where short_key=#{shortKey,jdbcType=VARCHAR}
+    </select>
+    <select id="checkUrlIsExist" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from url
+        where origin_url=#{origin_url,jdbcType=VARCHAR}
+        and expire_time>now()
+        and is_delete=false
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
