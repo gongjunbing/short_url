@@ -1,5 +1,6 @@
 package com.gong.url.exception;
 
+import com.gong.url.response.GlobalResponseCodeEnum;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 
@@ -18,14 +19,14 @@ public abstract class BaseException extends RuntimeException {
      * 错误码
      */
     @Getter
-    private final ErrorCodeEnum error;
+    private final GlobalResponseCodeEnum error;
     /**
      * 辅助数据
      */
     @Getter
     private final Map<String, String> data = new HashMap<>();
 
-    public BaseException(ErrorCodeEnum error, Map<String, String> data) {
+    public BaseException(GlobalResponseCodeEnum error, Map<String, String> data) {
         super(error.getMessage());
         this.error = error;
         if (!ObjectUtils.isEmpty(data)) {
@@ -33,7 +34,7 @@ public abstract class BaseException extends RuntimeException {
         }
     }
 
-    protected BaseException(ErrorCodeEnum error, Map<String, String> data, Throwable cause) {
+    protected BaseException(GlobalResponseCodeEnum error, Map<String, String> data, Throwable cause) {
         super(error.getMessage(), cause);
         this.error = error;
         if (!ObjectUtils.isEmpty(data)) {

@@ -1,5 +1,7 @@
 package com.gong.url.exception;
 
+import com.gong.url.response.GlobalResponseCodeEnum;
+
 import java.util.Map;
 
 /**
@@ -11,6 +13,6 @@ import java.util.Map;
 public class BadRequestException extends BaseException {
 
     public BadRequestException(Map<String, String> data) {
-        super(ErrorCodeEnum.BAD_REQUEST, data);
+        super(GlobalResponseCodeEnum.BAD_REQUEST, data);
     }
 }

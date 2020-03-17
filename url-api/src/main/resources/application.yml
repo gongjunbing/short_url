@@ -13,6 +13,16 @@ spring:
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
 
+# 配置mybatis-pageHelper
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
+
+
 # 配置knife4j自定义文档路径
 knife4j:
   markdowns: classpath:markdown/*
+
+

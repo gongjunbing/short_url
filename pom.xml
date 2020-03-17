@@ -31,6 +31,9 @@
         <url-domain.version>1.0.0-SNAPSHOT</url-domain.version>
         <url-service.version>1.0.0-SNAPSHOT</url-service.version>
         <mybatis.version>2.1.2</mybatis.version>
+        <pagehelper.version>5.1.11</pagehelper.version>
+        <pagehelper-starter.version>1.2.13</pagehelper-starter.version>
+
         <druid.version>1.1.20</druid.version>
 
     </properties>
@@ -99,6 +102,18 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+
+            <!-- pageHelper -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-starter.version}</version>
             </dependency>
 
             <!-- druid -->
