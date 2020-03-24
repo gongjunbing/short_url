@@ -1,7 +1,6 @@
 package com.gong.url.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.gong.url.Util;
 import com.gong.url.bo.UrlBO;
 import com.gong.url.dto.UrlDTO;
 import com.gong.url.request.AddUrlRequest;
@@ -10,9 +9,8 @@ import com.gong.url.response.Page;
 import com.gong.url.serice.UrlService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +29,13 @@ import java.util.stream.Collectors;
  * @date 2020/03/12 23:07
  **/
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags = "短链接接口")
 @RequestMapping("/url")
 @Validated
 public class UrlController {
 
-    private UrlService urlService;
+    private final UrlService urlService;
 
     @ApiOperationSupport(author = "tiansheng9527@gmail.com")
     @ApiOperation("生成短链接")
