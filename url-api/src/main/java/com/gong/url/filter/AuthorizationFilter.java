@@ -31,12 +31,6 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         log.info("AuthorizationFilter对请求进行预处理");
 
-        try {
-            Thread.sleep(1000 * 1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         log.info("AuthorizationFilter请求预处理结束");
 
         // 执行拦截请求
